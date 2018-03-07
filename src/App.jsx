@@ -8,12 +8,16 @@ import {
 } from 'react-router-dom';
 
 import type { IAuthenticator } from './core/Interfaces';
-import type { ParentRoute } from './core/Types';
+import type { ParentRoute, User } from './core/Types';
 import { Injector, Types } from './core';
 import { Home, Login } from './views/base';
 
 const APP_NAME = <b>Admin</b>;
 const APP_NAME_SMALL = <b>A</b>; 
+
+function setupDependencies(user: User) {
+  // Setup additional dependencies that depend on currently logged-on user
+}
 
 const PrivateRoute = (props) => {
   let { authenticator, component, routes, ...rest } = props;

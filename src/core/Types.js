@@ -4,7 +4,9 @@ export type User = {
   id: string,
   displayName: string,
   avatarBig: string,
-  avatarSmall: string
+  avatarSmall: string,
+  key: string,
+  algorithm: string
 }
 
 /*
