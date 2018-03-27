@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "aq-api-client": "https://s3-ap-southeast-1.amazonaws.com/fma-sdk/sdk/aq-api-client-v0.0.2.tgz",
+    "aq-api-client": "https://s3-ap-southeast-1.amazonaws.com/fma-sdk/sdk/aq-api-client-v0.0.4.tgz",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
