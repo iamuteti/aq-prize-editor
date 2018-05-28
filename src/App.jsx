@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect
+  Redirect,
+  Switch
 } from 'react-router-dom';
 
 import type { IAuthenticator } from './core/Interfaces';
@@ -19,10 +20,13 @@ function setupDependencies(user: User) {
   // Setup additional dependencies that depend on currently logged-on user
 }
 
-const PrivateRoute = (props) => {
+const PrivateRoute = (props: { authenticator: IAuthenticator, component: any, routes: any}) => {
   let { authenticator, component, routes, ...rest } = props;
   return <Route {...rest} render={props => {
-    if (authenticator.isAuthenticated()) {
+    if (authenticator.isAuthenticated() && authenticator.currentUser != null) {
+
+      setupDependencies(authenticator.currentUser);
+      
       // $FlowFixMe
       return React.createElement(component, {
         ...rest,
@@ -61,8 +65,10 @@ export default class App extends Component<Props> {
       <Router>
         <div style={{height: "100%"}}>
           <div>
-            <Route path='/login' render={props => <Login appName={APP_NAME}/>}/>
-            <PrivateRoute path='/' component={Home} authenticator={this.authenticator} routes={this.props.routes} />
+            <Switch>
+              <Route path='/login' render={props => <Login appName={APP_NAME}/>}/>
+              <PrivateRoute path='/' component={Home} authenticator={this.authenticator} routes={this.props.routes} />
+            </Switch>
           </div>
         </div>
       </Router>
