@@ -7,10 +7,11 @@ import {
   Redirect,
   Switch
 } from 'react-router-dom';
-
+import { MediaStorageClient, EngagementClient, GiftClient } from 'aq-api-client';
 import type { IAuthenticator } from './core/Interfaces';
 import type { ParentRoute, User } from './core/Types';
 import { Injector, Types } from './core';
+import Settings from './core/Config';
 import { Home, Login } from './views/base';
 
 const APP_NAME = <b>Admin</b>;
@@ -18,6 +19,9 @@ const APP_NAME_SMALL = <b>A</b>;
 
 function setupDependencies(user: User) {
   // Setup additional dependencies that depend on currently logged-on user
+  Injector.register(Types.mediaStorageClient, new MediaStorageClient(user, Settings.ENVIRONMENT));
+  Injector.register(Types.engagementClient, new EngagementClient(user, Settings.ENVIRONMENT));
+  Injector.register(Types.giftClient, new GiftClient(user, Settings.ENVIRONMENT));
 }
 
 const PrivateRoute = (props: { authenticator: IAuthenticator, component: any, routes: any}) => {

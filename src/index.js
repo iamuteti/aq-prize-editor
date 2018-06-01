@@ -5,9 +5,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import routes from './Routes';
 import Injector from './core/Injector';
-import { /*DummyAuthenticator,*/ /*AlwaysLoggedInAuthenticator*/ FacebookAuthenticator } from './core/authenticators';
+import { AlwaysLoggedInAuthenticator } from './core/authenticators';
 import { Types } from './core/Types';
-import Settings from './core/Config';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -28,5 +27,5 @@ function setupDependencies(){
   // If you want an authenticator which is always logged-in,
   // comment the top line and uncomment this one, and
   // enable the DummyAuthenticator in the imports section at the top of this file.
-  Injector.register(Types.authenticator, new FacebookAuthenticator(Settings.ENVIRONMENT));
+  Injector.register(Types.authenticator, new AlwaysLoggedInAuthenticator());
 }

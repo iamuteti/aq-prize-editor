@@ -42,5 +42,9 @@ export type ParentRoute = {
 }
 
 export const Types = {
-  authenticator: "authenticator"
+  authenticator: "authenticator",
+  mediaStorageClient: "mediaStorageClient",
+  socialMediaClient: "socialMediaClient",
+  engagementClient: "engagementClient",
+  giftClient: "giftClient"
 }
