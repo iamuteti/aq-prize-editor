@@ -1,5 +1,8 @@
 # Method listing for AQ Prize Editor
 
+## Revision History
+4-Jun: Initial Document
+
 ## List of Scheduled Games
 
 ![List of scheduled games](https://raw.githubusercontent.com/AQSoftware/aq-prize-editor/master/docs/img/list_of_scheduled_games.png)
