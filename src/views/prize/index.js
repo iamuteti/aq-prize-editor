@@ -3,6 +3,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import Prize from './Prize';
 import GameTypeThree from './gameTypeThree/GameTypeThree';
+import GameTypeTwo from './gameTypeTwo/GameTypeTwo';
 
 type Props = {
 }
@@ -24,7 +25,9 @@ export default class PrizeMain extends React.Component<Props, State> {
     return (
       <div>
         <Route path='/prize' component={Prize} exact/>
-        <Route path='/game-type-three' component={GameTypeThree} exact/>
+        <Route path='/game-one/:id' component={GameTypeThree} exact/>
+        <Route path='/game-two/:id' component={GameTypeTwo} exact/>
+        <Route path='/game-three' component={GameTypeThree} exact/>
       </div>
     );
   }

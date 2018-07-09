@@ -1,3 +1,6 @@
 export default {
-  loadPrizesSuccessful: []
+  loadPrizesSuccessful: [],
+  loadUserGiftBalancesSuccessful: [],
+  loadDenominationsSuccessful: [],
+  loadTournamentSuccessful: {}
 }

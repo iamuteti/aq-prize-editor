@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {array, func} from 'prop-types';
-import {loadTournamentRequest} from '../../../redux/actions/prizeActions';
+import {loadPrizesRequest} from '../../../redux/actions/prizeActions';
 
 class List extends Component {
 
@@ -12,10 +12,6 @@ class List extends Component {
     super(props);
     this.state = {
     };
-  }
-
-  componentDidMount() {
-    this.props.dispatchLoadTournament(1);
   }
 
   render() {
@@ -28,23 +24,17 @@ class List extends Component {
               <th style={{width: 10}}>
                 <input type='checkbox' />
               </th>
-              <th>Prize</th>
-              <th>Prize Type</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Limit</th>
-              <th>Quantity</th>
+              <th>Denomination</th>
+              <th>No. of Winners</th>
+              <th>Total Fund</th>
             </tr>
             </thead>
             <tbody>
             <tr>
               <td><input type='checkbox' /></td>
-              <td>Fitness Tracker Band</td>
-              <td>By Place</td>
-              <td>1</td>
-              <td>1</td>
-              <td />
-              <td>1</td>
+              <td>BM 1</td>
+              <td>1000</td>
+              <td>1000</td>
             </tr>
             </tbody>
           </table>
@@ -63,19 +53,19 @@ class List extends Component {
 
 List.propTypes = {
   prizes: array,
-  dispatchLoadTournament: func
+  dispatchLoadPrizes: func
 };
 
 const mapStateToProps = state => {
   return {
-    prizes: state.prize.loadTournamentSuccessful.prizes
+    prizes: state.prize.loadPrizesSuccessful
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return{
-    dispatchLoadTournament(id) {
-      dispatch(loadTournamentRequest(id))
+    dispatchLoadPrizes() {
+      dispatch(loadPrizesRequest())
     }
   }
 };

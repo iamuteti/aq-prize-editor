@@ -1,13 +1,10 @@
 // @flow
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {array, func} from 'prop-types';
+import {loadUserGiftBalancesRequest} from '../../../redux/actions/prizeActions';
 
-type Props = {
-}
-
-type State = {
-}
-
-export default class Form extends React.Component<Props, State> {
+class Form extends Component {
 
   static defaultProps = {};
 
@@ -22,8 +19,17 @@ export default class Form extends React.Component<Props, State> {
     };
   }
 
+  componentDidMount() {
+    this.props.dispatchLoadUserGiftBalances()
+  };
+
   onChangeHandler = evt => {
-    this.setState({ [evt.target.name]: evt.target.value })
+    const { name, value } = evt.target;
+    this.setState({ [name]: value })
+  };
+
+  updatePrizeState = evt => {
+    this.setState({ prize: evt.target.value })
   };
 
   resetForm = (e) => {
@@ -38,7 +44,14 @@ export default class Form extends React.Component<Props, State> {
     })
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+  };
+
   render() {
+    const { gifts } = this.props;
+    console.log('Bigger? ', parseInt(this.state.to) >= parseInt(this.state.from));
+
     return (
       <div className="box">
         <div className="box-header with-border">
@@ -54,7 +67,12 @@ export default class Form extends React.Component<Props, State> {
                       <label>Prize</label>
                     </div>
                     <div className='col-lg-9'>
-                      <select className='form-control' name='prize' value={this.state.prize} />
+                      <select className='form-control' name='prize' value={this.state.prize} onChange={this.updatePrizeState}>
+                        <option value="">Choose prize</option>
+                        {gifts.map((prize, i) =>
+                          <option key={i} value={prize.id}>{prize.title}</option>
+                        )}
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -76,21 +94,27 @@ export default class Form extends React.Component<Props, State> {
                     <div className='row'>
                       <div className='col-lg-6'>
                         <div className='row'>
-                          <div className='col-lg-5'>
-                            <label>From</label>
-                          </div>
-                          <div className='col-lg-7'>
-                            <input type='text' className='form-control' name='from' value={this.state.from} onChange={this.onChangeHandler} />
+                          <div className={'form-group' + (this.state.from !== '' && this.state.from < 1 ? ' has-error' : '')}>
+                            <div className='col-lg-5'>
+                              <label>From</label>
+                            </div>
+                            <div className='col-lg-7'>
+                              <input type='text' className='form-control' name='from' value={this.state.from} onChange={this.onChangeHandler} />
+                              {(this.state.from !== '' && this.state.from < 1 ? <span className='help-block'>Value has to be greater than 0</span> : null)}
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div className='col-lg-6'>
                         <div className='row'>
-                          <div className='col-lg-5'>
-                            <label>To</label>
-                          </div>
-                          <div className='col-lg-7'>
-                            <input type='text' className='form-control' name='to' value={this.state.to} onChange={this.onChangeHandler} />
+                          <div className={'form-group' + (this.state.to !== '' && (parseInt(this.state.to) < parseInt(this.state.from)) ? ' has-error' : '')}>
+                            <div className='col-lg-5'>
+                              <label>To</label>
+                            </div>
+                            <div className='col-lg-7'>
+                              <input type='text' className='form-control' name='to' value={this.state.to} onChange={this.onChangeHandler} />
+                              {(this.state.to !== '' && (parseInt(this.state.to) < parseInt(this.state.from)) ? <span className='help-block'>Value has to be greater than from</span> : null)}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -151,3 +175,24 @@ export default class Form extends React.Component<Props, State> {
     );
   }
 }
+
+Form.propTypes = {
+  gifts: array,
+  dispatchLoadUserGiftBalances: func
+};
+
+const mapStateToProps = state => {
+  return {
+    gifts: state.prize.loadUserGiftBalancesSuccessful
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return{
+    dispatchLoadUserGiftBalances() {
+      dispatch(loadUserGiftBalancesRequest())
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form)

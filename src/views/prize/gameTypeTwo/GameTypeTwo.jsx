@@ -1,28 +1,23 @@
 // @flow
 import React, { Component } from 'react';
+import { func } from 'prop-types'
 import List from './List';
 import Form from './Form';
 import PrizeInfo from '../commons/prizeInfo';
 
-class GameTypeThree extends Component {
-
-  static defaultProps = {};
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-    };
+class GameTypeTwo extends Component {
+  componentDidMount () {
+    // this.props.dispatchGameInformation()
   }
-
   render() {
     return (
       <div>
         <section className='content-header'>
-          <h1>Prize Editor</h1>
+          <h1>Bet Editor</h1>
         </section>
         <section className='content'>
-          <PrizeInfo />
-          {/*<List />*/}
+          <PrizeInfo/>
+          <List />
           <Form />
         </section>
       </div>
@@ -30,4 +25,8 @@ class GameTypeThree extends Component {
   }
 }
 
-export default GameTypeThree
+GameTypeTwo.propTypes = {
+  dispatchGameInformation: func
+};
+
+export default GameTypeTwo
