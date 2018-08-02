@@ -1,17 +1,15 @@
 // @flow
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import List from './List';
 import Form from './Form';
 import PrizeInfo from '../commons/prizeInfo';
+import {func, object} from 'prop-types';
+import {loadEngagementByIdRequest} from '../../../redux/actions/prizeActions';
+import {connect} from 'react-redux';
 
 class GameTypeThree extends Component {
-
-  static defaultProps = {};
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-    };
+  componentDidMount() {
+    this.props.dispatchGameInformation(this.props.match.params.id)
   }
 
   render() {
@@ -21,13 +19,32 @@ class GameTypeThree extends Component {
           <h1>Prize Editor</h1>
         </section>
         <section className='content'>
-          <PrizeInfo />
-          {/*<List />*/}
-          <Form />
+          <PrizeInfo prize={this.props.prize}/>
+          <List engagementId={this.props.match.params.id}/>
+          <Form engagementId={this.props.match.params.id}/>
         </section>
       </div>
     );
   }
 }
 
-export default GameTypeThree
+GameTypeThree.propTypes = {
+  dispatchGameInformation: func,
+  prize: object
+};
+
+const mapStateToProps = state => {
+  return {
+    prize: state.prize.loadEngagementById
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchGameInformation(id) {
+      dispatch(loadEngagementByIdRequest(id))
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameTypeThree)

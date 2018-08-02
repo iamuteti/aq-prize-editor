@@ -3,6 +3,35 @@ import { Injector, Types } from '../../core';
 import type { IAuthenticator } from '../../core/Interfaces';
 import { EngagementClient, GiftClient } from 'aq-api-client';
 
+export function loadEngagementByIdRequest(id) {
+  const authenticator: IAuthenticator = Injector.resolve(Types.authenticator);
+  const creds = {
+    id: authenticator.currentUser.id,
+    key: authenticator.currentUser.key
+  };
+  const client = new EngagementClient(creds);
+
+  console.log('ID: ', id);
+  return dispatch => {
+    return client
+      .get(id)
+      .then(res => {
+        dispatch(loadEngagementById(res.body))
+      })
+      .catch(error => {
+        dispatch(loadEngagementById({}));
+        console.error('redux: loadEngagementByIdRequest error occurred:', error)
+      })
+  }
+}
+
+export function loadEngagementById(data) {
+  return {
+    type: allActions.LOAD_ENGAGEMENT_BY_ID,
+    loadEngagementById: data
+  }
+}
+
 export function loadPrizesRequest() {
   const authenticator: IAuthenticator = Injector.resolve(Types.authenticator);
   const creds = {
@@ -13,7 +42,7 @@ export function loadPrizesRequest() {
 
   return dispatch => {
     return client
-      .getUserEngagements(null, 0, 1)
+      .getUserEngagements(null, 0, 10)
       .then(res => {
         dispatch(loadPrizesSuccessful(res.body))
       })
@@ -45,7 +74,7 @@ export function loadUserGiftBalancesRequest() {
     return client
       .getUserGiftBalances(GiftClient.STATUS_AVAILABLE, true)
       .then(res => {
-        dispatch(loadUserGiftBalancesSuccessful(res))
+        dispatch(loadUserGiftBalancesSuccessful(res.body))
       })
       .catch(error => {
         dispatch(loadUserGiftBalancesSuccessful([]));
@@ -73,7 +102,7 @@ export function loadDenominationsRequest() {
     return client
       .getBetDenominations()
       .then(res => {
-        dispatch(loadDenominationsSuccessful(res))
+        dispatch(loadDenominationsSuccessful(res.body))
       })
       .catch(error => {
         dispatch(loadDenominationsSuccessful([]));
@@ -86,6 +115,36 @@ export function loadDenominationsSuccessful(data) {
   return {
     type: allActions.LOAD_DENOMINATIONS_SUCCESSFUL,
     loadDenominationsSuccessful: data
+  }
+}
+
+export function addTournamentRequest(id, data) {
+  const authenticator: IAuthenticator = Injector.resolve(Types.authenticator);
+  const creds = {
+    id: authenticator.currentUser.id,
+    key: authenticator.currentUser.key
+  };
+  const client = new GiftClient(creds);
+
+
+  return dispatch => {
+    return client
+      .addTournament(id, data)
+      .then(res => {
+        console.log('Tournament added: ', res.body);
+        dispatch(addTournamentSuccessful(true))
+      })
+      .catch(error => {
+        console.error('redux: addTournamentRequest error occurred:', error);
+        dispatch(addTournamentSuccessful(false))
+      })
+  }
+}
+
+export function addTournamentSuccessful(bool) {
+  return {
+    type: allActions.ADD_TOURNAMENT_SUCCESSFUL,
+    addTournamentSuccessful: bool
   }
 }
 

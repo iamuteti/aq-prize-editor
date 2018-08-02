@@ -1,21 +1,27 @@
 // @flow
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {array, func} from 'prop-types';
+import {array, func, string} from 'prop-types';
 import {loadTournamentRequest} from '../../../redux/actions/prizeActions';
 
 class List extends Component {
-
-  static defaultProps = {};
-
   constructor(props) {
     super(props);
     this.state = {
+      tournaments: []
     };
   }
 
   componentDidMount() {
-    this.props.dispatchLoadTournament(1);
+    this.props.dispatchLoadTournament(this.props.engagementId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.tournaments !== this.props.tournaments) {
+      this.setState({
+        tournaments: nextProps.tournaments
+      })
+    }
   }
 
   render() {
@@ -26,7 +32,7 @@ class List extends Component {
             <thead>
             <tr>
               <th style={{width: 10}}>
-                <input type='checkbox' />
+                <input type='checkbox'/>
               </th>
               <th>Prize</th>
               <th>Prize Type</th>
@@ -37,22 +43,25 @@ class List extends Component {
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td><input type='checkbox' /></td>
-              <td>Fitness Tracker Band</td>
-              <td>By Place</td>
-              <td>1</td>
-              <td>1</td>
-              <td />
-              <td>1</td>
-            </tr>
+            {this.state.tournaments.map((tournament, i) =>
+              <tr key={i}>
+                <td><input type='checkbox'/></td>
+                <td>Fitness Tracker Band</td>
+                <td>By Place</td>
+                <td>1</td>
+                <td>1</td>
+                <td/>
+                <td>1</td>
+              </tr>
+            )}
             </tbody>
           </table>
           <div className='col-lg-12'>
-            <div className='pull-right' style={{ marginTop: '20px' }}>
-              <button className='btn btn-danger' type='button'>DISCARD</button>
+            <div className='pull-right' style={{marginTop: '20px'}}>
+              <button disabled={this.state.tournaments.length <= 0} className='btn btn-danger' type='button'>DISCARD
+              </button>
               &nbsp;&nbsp;
-              <button className='btn btn-success'>SUBMIT</button>
+              <button disabled={this.state.tournaments.length <= 0} className='btn btn-success'>SUBMIT</button>
             </div>
           </div>
         </div>
@@ -62,18 +71,19 @@ class List extends Component {
 }
 
 List.propTypes = {
-  prizes: array,
+  engagementId: string.isRequired,
+  tournaments: array,
   dispatchLoadTournament: func
 };
 
 const mapStateToProps = state => {
   return {
-    prizes: state.prize.loadTournamentSuccessful.prizes
+    tournaments: state.prize.loadTournamentSuccessful.prizes
   }
 };
 
 const mapDispatchToProps = dispatch => {
-  return{
+  return {
     dispatchLoadTournament(id) {
       dispatch(loadTournamentRequest(id))
     }

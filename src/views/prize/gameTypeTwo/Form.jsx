@@ -61,12 +61,13 @@ class Form extends Component {
                       <select className='form-control' name='denomination' value={this.state.denomination} onChange={this.updateDenominationState}>
                         <option value="">Choose denomination</option>
                         {this.props.denominations.map((denomination, i) =>
-                          <option key={i} value="">Choose denomination</option>
+                          <option key={i} value={denomination}>{denomination}</option>
                         )}
                       </select>
                     </div>
                   </div>
                 </div>
+
                 <div className='form-group'>
                   <div className='row'>
                     <div className='col-lg-3'>
@@ -74,6 +75,17 @@ class Form extends Component {
                     </div>
                     <div className='col-lg-9'>
                       <input type='text' className='form-control' name='winners' value={this.state.winners} onChange={this.onChangeHandler} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className='form-group'>
+                  <div className='row'>
+                    <div className='col-lg-3'>
+                      <label>Total Fund:</label>
+                    </div>
+                    <div className='col-lg-9'>
+                      {this.state.winners * this.state.denomination}
                     </div>
                   </div>
                 </div>

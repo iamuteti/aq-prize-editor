@@ -11,6 +11,27 @@ class Prize extends React.Component {
     this.props.dispatchLoadPrizes()
   };
 
+  renderActionButton(id, type) {
+    if (type === 1) {
+      return (
+        <Link to={`/game-one/${id}`} className='btn btn-success' disabled>ADD
+          PRIZES</Link>
+      )
+    } else if (type === 2) {
+      return (
+        <Link to={`/game-two/${id}`} className='btn btn-warning' disabled>ADD
+          FUND</Link>
+      )
+    } else if (type === 3) {
+      return (
+        <Link to={`/game-three/${id}`} className='btn btn-success'>ADD
+          PRIZES</Link>
+      )
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <div>
@@ -31,23 +52,23 @@ class Prize extends React.Component {
                   <th>Game Type</th>
                   <th>Publish Date</th>
                   <th>Date Created</th>
-                  <th />
+                  <th/>
                 </tr>
                 </thead>
                 <tbody>
                 {this.props.prizes.map((prize, i) =>
                   <tr key={i}>
                     <td>
-                      <div className='img-thumbnail'>
-                        <img src={prize.imageSmall} alt='Game 3 Prize' />
+                      <div className='img-thumbnail square-img'>
+                        <img src={prize.imageSmall} alt='Game 3 Prize'/>
                       </div>
                     </td>
                     <td>{prize.title}</td>
                     <td>Game {prize.funType.type}</td>
-                    <td>{moment(prize.publishDate).format("Do MMM YYYY")}</td>
-                    <td>{moment(prize.createDate).format("Do MMM YYYY")}</td>
+                    <td>{moment(prize.publishDate).format('Do MMM YYYY')}</td>
+                    <td>{moment(prize.createDate).format('Do MMM YYYY')}</td>
                     <td>
-                      {prize.funType.type === 2 ? <Link to={`/game-two/${prize.id}`} className='btn btn-warning'>ADD FUND</Link> : <Link to={`/prize/${prize.id}`} className='btn btn-success'>ADD PRIZES</Link>}
+                      {this.renderActionButton(prize.id, prize.funType.type)}
                     </td>
                   </tr>
                 )}
@@ -73,7 +94,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return{
+  return {
     dispatchLoadPrizes() {
       dispatch(loadPrizesRequest())
     }
