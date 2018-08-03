@@ -6,9 +6,6 @@ import moment from 'moment'
 import {addTournamentRequest, loadUserGiftBalancesRequest} from '../../../redux/actions/prizeActions';
 
 class Form extends Component {
-
-  static defaultProps = {};
-
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +63,7 @@ class Form extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const {startDate, endDate, prize, from, to} = this.state;
+    const {startDate, endDate, prize, quantity, from, to, max_count} = this.state;
     const data = {
       startDate,
       endDate,
@@ -82,7 +79,6 @@ class Form extends Component {
 
   render() {
     const {gifts} = this.props;
-    console.log('Gift: ', gifts);
 
     return (
       <div className="box">

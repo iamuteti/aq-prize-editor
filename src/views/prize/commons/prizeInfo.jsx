@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 
 const PrizeInfo = props => {
+  console.log('Prizes: ', props.prize);
   return (
     <div>
       {props.prize.id ? <div className="box">

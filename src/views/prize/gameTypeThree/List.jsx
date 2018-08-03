@@ -32,7 +32,7 @@ class List extends Component {
             <thead>
             <tr>
               <th style={{width: 10}}>
-                <input type='checkbox'/>
+                <input type='checkbox' />
               </th>
               <th>Prize</th>
               <th>Prize Type</th>
@@ -45,21 +45,20 @@ class List extends Component {
             <tbody>
             {this.state.tournaments.map((tournament, i) =>
               <tr key={i}>
-                <td><input type='checkbox'/></td>
+                <td><input type='checkbox' /></td>
                 <td>Fitness Tracker Band</td>
                 <td>By Place</td>
                 <td>1</td>
                 <td>1</td>
-                <td/>
+                <td />
                 <td>1</td>
               </tr>
             )}
             </tbody>
           </table>
           <div className='col-lg-12'>
-            <div className='pull-right' style={{marginTop: '20px'}}>
-              <button disabled={this.state.tournaments.length <= 0} className='btn btn-danger' type='button'>DISCARD
-              </button>
+            <div className='pull-right' style={{ marginTop: '20px' }}>
+              <button disabled={this.state.tournaments.length <= 0} className='btn btn-danger' type='button'>DISCARD</button>
               &nbsp;&nbsp;
               <button disabled={this.state.tournaments.length <= 0} className='btn btn-success'>SUBMIT</button>
             </div>
@@ -83,7 +82,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
+  return{
     dispatchLoadTournament(id) {
       dispatch(loadTournamentRequest(id))
     }

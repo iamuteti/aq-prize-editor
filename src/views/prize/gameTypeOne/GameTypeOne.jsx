@@ -7,7 +7,7 @@ import {func, object} from 'prop-types';
 import {loadEngagementByIdRequest} from '../../../redux/actions/prizeActions';
 import {connect} from 'react-redux';
 
-class GameTypeThree extends Component {
+class GameTypeOne extends Component {
   componentDidMount () {
     this.props.dispatchGameInformation(this.props.match.params.id)
   }
@@ -18,16 +18,16 @@ class GameTypeThree extends Component {
           <h1>Prize Editor</h1>
         </section>
         <section className='content'>
-            <PrizeInfo prize={this.props.prize} />
-            <List engagementId={this.props.match.params.id} />
-            <Form engagementId={this.props.match.params.id} />
+          <PrizeInfo prize={this.props.prize} />
+          <List engagementId={this.props.match.params.id} />
+          <Form engagementId={this.props.match.params.id} />
         </section>
       </div>
     );
   }
 }
 
-GameTypeThree.propTypes = {
+GameTypeOne.propTypes = {
   dispatchGameInformation: func,
   prize: object
 };
@@ -46,4 +46,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameTypeThree)
+export default connect(mapStateToProps, mapDispatchToProps)(GameTypeOne)

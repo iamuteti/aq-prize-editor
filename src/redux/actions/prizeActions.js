@@ -11,7 +11,6 @@ export function loadEngagementByIdRequest(id) {
   };
   const client = new EngagementClient(creds);
 
-  console.log('ID: ', id);
   return dispatch => {
     return client
       .get(id)
@@ -42,7 +41,7 @@ export function loadPrizesRequest() {
 
   return dispatch => {
     return client
-      .getUserEngagements(null, 0, 10)
+      .getUserEngagements(null, 0, 30)
       .then(res => {
         dispatch(loadPrizesSuccessful(res.body))
       })
@@ -155,11 +154,15 @@ export function loadTournamentRequest(id) {
     key: authenticator.currentUser.key
   };
   const client = new GiftClient(creds);
+  console.log('ID: ', id);
 
   return dispatch => {
     return client
       .getTournament(id)
-      .then(res => dispatch(loadTournamentSuccessful(res)))
+      .then(res => {
+        console.log('Data: ', res);
+        dispatch(loadTournamentSuccessful(res))
+      })
       .catch(error => {
         dispatch(loadTournamentSuccessful({}));
         console.error('redux: loadTournamentsRequest error occurred:', error)
